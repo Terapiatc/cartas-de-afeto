@@ -14,16 +14,343 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      access_logs: {
+        Row: {
+          created_at: string
+          id: string
+          share_id: string | null
+          visitor_name: string
+          volunteer_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          share_id?: string | null
+          visitor_name: string
+          volunteer_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          share_id?: string | null
+          visitor_name?: string
+          volunteer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "access_logs_share_id_fkey"
+            columns: ["share_id"]
+            isOneToOne: false
+            referencedRelation: "shares"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "access_logs_volunteer_id_fkey"
+            columns: ["volunteer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      letter_opens: {
+        Row: {
+          access_log_id: string
+          created_at: string
+          id: string
+          letter_id: string
+        }
+        Insert: {
+          access_log_id: string
+          created_at?: string
+          id?: string
+          letter_id: string
+        }
+        Update: {
+          access_log_id?: string
+          created_at?: string
+          id?: string
+          letter_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "letter_opens_access_log_id_fkey"
+            columns: ["access_log_id"]
+            isOneToOne: false
+            referencedRelation: "access_logs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "letter_opens_letter_id_fkey"
+            columns: ["letter_id"]
+            isOneToOne: false
+            referencedRelation: "letters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      letter_ratings: {
+        Row: {
+          access_log_id: string | null
+          comment: string | null
+          created_at: string
+          id: string
+          letter_id: string
+          stars: number
+        }
+        Insert: {
+          access_log_id?: string | null
+          comment?: string | null
+          created_at?: string
+          id?: string
+          letter_id: string
+          stars: number
+        }
+        Update: {
+          access_log_id?: string | null
+          comment?: string | null
+          created_at?: string
+          id?: string
+          letter_id?: string
+          stars?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "letter_ratings_access_log_id_fkey"
+            columns: ["access_log_id"]
+            isOneToOne: false
+            referencedRelation: "access_logs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "letter_ratings_letter_id_fkey"
+            columns: ["letter_id"]
+            isOneToOne: false
+            referencedRelation: "letters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      letters: {
+        Row: {
+          active: boolean
+          body_html: string
+          created_at: string
+          id: string
+          number: number
+          title: string
+        }
+        Insert: {
+          active?: boolean
+          body_html?: string
+          created_at?: string
+          id?: string
+          number: number
+          title: string
+        }
+        Update: {
+          active?: boolean
+          body_html?: string
+          created_at?: string
+          id?: string
+          number?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          matricula: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          matricula: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          matricula?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      shares: {
+        Row: {
+          access_log_id: string | null
+          anonymous: boolean
+          created_at: string
+          id: string
+          letter_id: string | null
+          sender_name: string | null
+          token: string
+          volunteer_id: string | null
+        }
+        Insert: {
+          access_log_id?: string | null
+          anonymous?: boolean
+          created_at?: string
+          id?: string
+          letter_id?: string | null
+          sender_name?: string | null
+          token: string
+          volunteer_id?: string | null
+        }
+        Update: {
+          access_log_id?: string | null
+          anonymous?: boolean
+          created_at?: string
+          id?: string
+          letter_id?: string | null
+          sender_name?: string | null
+          token?: string
+          volunteer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shares_access_log_id_fkey"
+            columns: ["access_log_id"]
+            isOneToOne: false
+            referencedRelation: "access_logs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shares_letter_id_fkey"
+            columns: ["letter_id"]
+            isOneToOne: false
+            referencedRelation: "letters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shares_volunteer_id_fkey"
+            columns: ["volunteer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_settings: {
+        Row: {
+          id: boolean
+          institutional_text: string
+          ombudsman_url: string
+          updated_at: string
+        }
+        Insert: {
+          id?: boolean
+          institutional_text?: string
+          ombudsman_url?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: boolean
+          institutional_text?: string
+          ombudsman_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      social_links: {
+        Row: {
+          id: string
+          label: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          id?: string
+          label: string
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          id?: string
+          label?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      volunteer_ratings: {
+        Row: {
+          access_log_id: string | null
+          comment: string | null
+          created_at: string
+          id: string
+          stars: number
+          volunteer_id: string
+        }
+        Insert: {
+          access_log_id?: string | null
+          comment?: string | null
+          created_at?: string
+          id?: string
+          stars: number
+          volunteer_id: string
+        }
+        Update: {
+          access_log_id?: string | null
+          comment?: string | null
+          created_at?: string
+          id?: string
+          stars?: number
+          volunteer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "volunteer_ratings_access_log_id_fkey"
+            columns: ["access_log_id"]
+            isOneToOne: false
+            referencedRelation: "access_logs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "volunteer_ratings_volunteer_id_fkey"
+            columns: ["volunteer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "volunteer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +477,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "volunteer"],
+    },
   },
 } as const
