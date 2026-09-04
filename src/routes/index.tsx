@@ -16,7 +16,7 @@ import {
   type VisitorSession,
 } from "@/lib/cartas";
 
-type Search = { v?: string; s?: string };
+type Search = { v?: string | undefined; s?: string | undefined };
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): Search => ({
