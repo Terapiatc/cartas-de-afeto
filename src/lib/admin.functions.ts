@@ -69,10 +69,12 @@ export const createVolunteer = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
-    const { data: isAdmin } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
+    const { data: isAdmin } = await context.supabase
+      .from("user_roles")
+      .select("id")
+      .eq("user_id", context.userId)
+      .eq("role", "admin")
+      .maybeSingle();
     if (!isAdmin) throw new Error("Acesso negado");
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -100,10 +102,12 @@ export const deleteVolunteer = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
-    const { data: isAdmin } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
+    const { data: isAdmin } = await context.supabase
+      .from("user_roles")
+      .select("id")
+      .eq("user_id", context.userId)
+      .eq("role", "admin")
+      .maybeSingle();
     if (!isAdmin) throw new Error("Acesso negado");
     if (data.id === context.userId) throw new Error("Você não pode excluir a si mesmo");
 
