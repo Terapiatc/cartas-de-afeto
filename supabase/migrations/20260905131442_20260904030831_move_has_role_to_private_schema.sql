@@ -7,4 +7,4 @@ ALTER FUNCTION public.has_role(uuid, public.app_role) SET SCHEMA private;
 ALTER FUNCTION private.has_role(uuid, public.app_role) SET search_path = public;
 
 REVOKE ALL ON FUNCTION private.has_role(uuid, public.app_role) FROM PUBLIC, anon;
-GRANT EXECUTE ON FUNCTION private.has_role(uuid, public.app_role) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION private.has_role(uuid, public.app_role) TO authenticated, service_role; 

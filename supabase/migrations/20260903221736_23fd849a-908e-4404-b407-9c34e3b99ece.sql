@@ -4,4 +4,4 @@ CREATE POLICY "cartas visiveis logado" ON public.letters FOR SELECT TO authentic
   USING (active OR public.has_role(auth.uid(), 'admin'));
 
 REVOKE EXECUTE ON FUNCTION public.has_role(uuid, public.app_role) FROM PUBLIC, anon;
-GRANT EXECUTE ON FUNCTION public.has_role(uuid, public.app_role) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.has_role(uuid, public.app_role) TO authenticated, service_role; 

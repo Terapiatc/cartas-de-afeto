@@ -43,4 +43,4 @@ CREATE POLICY "visitante le proprio log recente"
 ON public.access_logs FOR SELECT TO anon
 USING (created_at > now() - interval '12 hours');
 
-GRANT SELECT ON public.access_logs TO anon;
+GRANT SELECT ON public.access_logs TO anon; 

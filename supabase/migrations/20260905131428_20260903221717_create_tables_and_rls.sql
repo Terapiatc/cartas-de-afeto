@@ -166,9 +166,10 @@ INSERT INTO public.social_links (label, url, sort_order) VALUES
   ('WhatsApp', 'https://wa.me/5511999999999', 2);
 
 INSERT INTO public.letters (number, title, body_html) VALUES
-  (1, 'Você é mais forte do que imagina', '<p>{name},</p><p>Encontrei esta carta e, antes de abri-la, já sabia que seria para você. <b>Não precisa ser perfeito hoje</b> — basta continuar caminhando.</p><p>As manhãs difíceis também passam. <i>Respira, um passo de cada vez.</i></p><p style="text-align:right"><i>Com carinho</i></p>'),
-  (2, 'Um recomeço cabe em qualquer dia', '<p>Oi, {name}.</p><p>Ninguém combinou que a vida seria em linha reta. Recomeçar não apaga o caminho — <b>ele conta como parte da história</b>.</p><p><u>Hoje pode ser o primeiro dia de novo.</u></p>'),
-  (3, 'Você não está sozinha nessa', '<p>{name}, existe gente torcendo por você mesmo sem te conhecer.</p><p>Esta carta é a prova: alguém sentou, pensou em você e escreveu.</p><p><i>Guarde isso.</i></p>'),
+  (1, 'Você é mais forte do que imagina', '<p>{name},</p><p>Encontrei esta carta e, antes de abri-la, já sabia que seria para você. <b>Não precisa ser perfeito hoje</b> — basta continuar c[...]'
+  (2, 'Um recomeço cabe em qualquer dia', '<p>Oi, {name}.</p><p>Ninguém combinou que a vida seria em linha reta. Recomeçar não apaga o caminho — <b>ele conta como parte da história</b>.</p[...]'
+  (3, 'Você não está sozinha nessa', '<p>{name}, existe gente torcendo por você mesmo sem te conhecer.</p><p>Esta carta é a prova: alguém sentou, pensou em você e escreveu.</p><p><i>Guarde[...]'
   (4, 'Respire, o cansaço também passa', '<p>{name},</p><p>Descansar não é desistir. É parte de continuar.</p><p><b>Permita-se parar hoje</b> — amanhã você segue.</p>'),
-  (5, 'O que você fez até aqui já é muito', '<p>Querido(a) {name},</p><p>Você provavelmente não lembra de metade das coisas difíceis que já atravessou. <i>Mas atravessou.</i></p><p>Isso é força.</p>'),
-  (6, 'Que hoje seja um pouco mais leve', '<p>{name},</p><p>Não desejo perfeição para o seu dia. Desejo <b>leveza</b>.</p><p>Um café quente, uma boa notícia, um respiro.</p>');
+  (5, 'O que você fez até aqui já é muito', '<p>Querido(a) {name},</p><p>Você provavelmente não lembra de metade das coisas difíceis que já atravessou. <i>Mas atravessou.</i></p><p>Isso �[...]'
+  (6, 'Que hoje seja um pouco mais leve', '<p>{name},</p><p>Não desejo perfeição para o seu dia. Desejo <b>leveza</b>.</p><p>Um café quente, uma boa notícia, um respiro.</p>'); 
+ 
