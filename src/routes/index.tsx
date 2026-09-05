@@ -4,6 +4,8 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteFooter } from "@/components/SiteFooter";
 import { StarRating } from "@/components/StarRating";
+import { socialImageMeta } from "@/lib/site";
+
 import {
   clearSession,
   loadSession,
@@ -36,8 +38,14 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Escolha um envelope e leia uma carta de apoio escrita por voluntários.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary_large_image" },
+      ...socialImageMeta(),
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
+
   component: VisitorPage,
 });
 
