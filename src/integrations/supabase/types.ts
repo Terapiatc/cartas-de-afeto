@@ -257,18 +257,21 @@ export type Database = {
       }
       social_links: {
         Row: {
+          icon: string
           id: string
           label: string
           sort_order: number
           url: string
         }
         Insert: {
+          icon?: string
           id?: string
           label: string
           sort_order?: number
           url: string
         }
         Update: {
+          icon?: string
           id?: string
           label?: string
           sort_order?: number

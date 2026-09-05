@@ -7,6 +7,7 @@ import { StarRating } from "@/components/StarRating";
 import { RichTextEditor } from "@/components/RichTextEditor";
 import { createVolunteer, deleteVolunteer } from "@/lib/admin.functions";
 import { padNumber, type Letter } from "@/lib/cartas";
+import { SOCIAL_ICONS, getSocialIcon } from "@/lib/social-icons";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -391,13 +392,13 @@ function VolunteersTab() {
 function FooterTab() {
   const [text, setText] = useState("");
   const [url, setUrl] = useState("");
-  const [links, setLinks] = useState<{ id: string; label: string; url: string }[]>([]);
-  const [newLink, setNewLink] = useState({ label: "", url: "" });
+  const [links, setLinks] = useState<{ id: string; label: string; url: string; icon: string }[]>([]);
+  const [newLink, setNewLink] = useState({ label: "", url: "", icon: "link" });
 
   const load = useCallback(async () => {
     const [s, l] = await Promise.all([
       supabase.from("site_settings").select("institutional_text, ombudsman_url").maybeSingle(),
-      supabase.from("social_links").select("id, label, url").order("sort_order"),
+      supabase.from("social_links").select("id, label, url, icon").order("sort_order"),
     ]);
     setText(s.data?.institutional_text ?? "");
     setUrl(s.data?.ombudsman_url ?? "");
@@ -447,20 +448,37 @@ function FooterTab() {
       <div className={cardCls}>
         <p className="font-display text-[20px] font-semibold">Redes sociais</p>
         <div className="mt-3 space-y-2">
-          {links.map((l) => (
-            <div key={l.id} className="flex flex-wrap items-center gap-2">
-              <input
-                value={l.label}
-                onChange={(e) =>
-                  setLinks(links.map((x) => (x.id === l.id ? { ...x, label: e.target.value } : x)))
-                }
-                aria-label="Rótulo"
-                className={inputCls + " w-28 shrink-0"}
-              />
-              <input
-                value={l.url}
-                onChange={(e) =>
-                  setLinks(links.map((x) => (x.id === l.id ? { ...x, url: e.target.value } : x)))
+          {links.map((l) => {
+            const ActiveIcon = getSocialIcon(l.icon ?? "link");
+            return (
+              <div key={l.id} className="flex flex-wrap items-center gap-2">
+                <select
+                  value={l.icon ?? "link"}
+                  onChange={(e) =>
+                    setLinks(links.map((x) => (x.id === l.id ? { ...x, icon: e.target.value } : x)))
+                  }
+                  aria-label="Ícone"
+                  className={inputCls + " w-36 shrink-0"}
+                >
+                  {SOCIAL_ICONS.map((e) => (
+                    <option key={e.key} value={e.key}>{e.label}</option>
+                  ))}
+                </select>
+                <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-steel/40 ring-1 ring-ink/10">
+                  <ActiveIcon className="size-4 text-ink" strokeWidth={1.75} />
+                </div>
+                <input
+                  value={l.label}
+                  onChange={(e) =>
+                    setLinks(links.map((x) => (x.id === l.id ? { ...x, label: e.target.value } : x)))
+                  }
+                  aria-label="Rótulo"
+                  className={inputCls + " w-28 shrink-0"}
+                />
+                <input
+                  value={l.url}
+                  onChange={(e) =>
+                    setLinks(links.map((x) => (x.id === l.id ? { ...x, url: e.target.value } : x)))
                 }
                 aria-label="URL"
                 className={inputCls + " min-w-0 flex-1"}
@@ -469,7 +487,7 @@ function FooterTab() {
                 onClick={async () => {
                   await supabase
                     .from("social_links")
-                    .update({ label: l.label, url: l.url })
+                    .update({ label: l.label, url: l.url, icon: l.icon })
                     .eq("id", l.id);
                   toast.success("Atualizado.");
                 }}
@@ -487,9 +505,20 @@ function FooterTab() {
                 Remover
               </button>
             </div>
-          ))}
+          );
+          })}
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-ink/10 pt-4">
+          <select
+            value={newLink.icon}
+            onChange={(e) => setNewLink({ ...newLink, icon: e.target.value })}
+            aria-label="Ícone da nova rede"
+            className={inputCls + " w-36 shrink-0"}
+          >
+            {SOCIAL_ICONS.map((e) => (
+              <option key={e.key} value={e.key}>{e.label}</option>
+            ))}
+          </select>
           <input
             value={newLink.label}
             onChange={(e) => setNewLink({ ...newLink, label: e.target.value })}
@@ -510,7 +539,7 @@ function FooterTab() {
               await supabase
                 .from("social_links")
                 .insert({ ...newLink, sort_order: links.length + 1 });
-              setNewLink({ label: "", url: "" });
+              setNewLink({ label: "", url: "", icon: "link" });
               void load();
             }}
             className={primaryCls}
